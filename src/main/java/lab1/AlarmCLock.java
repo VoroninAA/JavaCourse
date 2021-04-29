@@ -20,7 +20,7 @@ class Time{
     }
 
     public boolean equals(Time t) {
-        return seconds.equals(t.seconds) & minutes.equals(t.minutes) && hours.equals(t.hours);
+        return seconds.equals(t.seconds) && minutes.equals(t.minutes) && hours.equals(t.hours);
     }
 
 }
@@ -39,15 +39,33 @@ public class  AlarmCLock implements AlarmClockInterface {
     }
 
     @Override
+    public ArrayList<Time> getAlarms() {
+        return  alarms;
+    }
+
+    @Override
     public void reset(){
         flag = false;
     }
     @Override
-    public void checkAllAlarms(Time time) {
+    public Time checkAllAlarms(Time time) {
         for (Time a : alarms) {
             if (a.seconds == time.seconds && a.minutes == time.minutes && time.hours == a.hours) {
+                alarms.remove(a);
                 printAlarmMessage();
                 flag = true;
+                return  a;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteAlarms(Time time) {
+        for (Time a : alarms) {
+            if (a.seconds == time.seconds && a.minutes == time.minutes && time.hours == a.hours) {
+                alarms.remove(a);
+                break;
             }
         }
     }
